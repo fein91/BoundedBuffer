@@ -11,10 +11,13 @@ package boundedbuffer;
 public class SingleElemBuffer {
 
     private Integer element = null;
+    private int waitedConsumers = 0;
+    private int waitedProducers = 0;
 
     public synchronized void put(Integer newElem) throws InterruptedException {
         while (element != null) {
             this.wait();
+
         }
         this.element = newElem;
         this.notifyAll();
@@ -23,6 +26,7 @@ public class SingleElemBuffer {
     public synchronized Integer get() throws InterruptedException {
         while (element == null) {
             this.wait();
+
         }
         int result = this.element;
         this.element = null;
